@@ -1,33 +1,84 @@
-<style>
-body {
-    background: #CCC;
-}
+    <style>
 
-.image-block {
-    float: left;
-    width: 130px;
-    height: 180px;
-    background: white;
-}
+    body {
+        padding: 0;
+        margin: 0;
+        font-family: Verdana;
+        background: linear-gradient(135deg, #F99, #99F 60%, #99F);
+    }
 
-svg {
-    padding: 10px;
-    height: 80px;
-    width: 80px;
-}
+    main {
+        width: 100%;
+        padding: 5em;
+        text-align: center;
+        background: linear-gradient( rgba(255,255,255,0), rgba(255,255,255,1) 30%, rgba(255,255,255,1) 70%, rgba(255,255,255,0)); 
+    }
 
-p {
-    font-size: 12px;
-    text-overflow: ellipsis;
-    margin: 10px;
-    text-align: center;
-}
+    .title, .intro {
+        text-align: center;
+        max-width: 1280px;
+    }
 
-</style>
+    .title {
+        margin-top: 2em;
+    }
 
-<input id="fileInput" type="file" multiple>
+    #svg-browser {
+        margin: 0 auto;
+    }
 
-<div id="svg-browser"></div>
+    .clearfix, #svg-browser:after {
+        clear: both;
+        content: "";
+        display: table;
+    }
+
+    main {
+        text-align: center;
+        font-size: 1em;
+    }
+
+    .image-block {
+        float: left;
+        width: 130px;
+        height: 180px;
+        background: white;
+        text-align: center;
+    }
+
+    svg {
+        padding: 10px;
+        height: 80px;
+        width: 80px;
+    }
+
+    p {
+        font-size: 12px;
+        text-overflow: ellipsis;
+        margin: 10px;
+        text-align: center;
+    }
+
+    input {
+        margin-top: 2em;
+    }
+
+    </style>
+
+    <h1 class="title">SVG Browser</h1>
+    <main>
+        <p>Browse your computer and select some SVG files to preview them here.</p>
+        <p>
+        Lack SVGs to test with? 
+        Try Google's <a href="https://github.com/google/material-design-icons/releases/download/3.0.1/material-design-icons-3.0.1.zip">Material Icons</a> package!
+        Just unzip and play.
+        </p>
+        <input id="fileInput" type="file" multiple>
+    </main>
+
+
+
+<div id="svg-browser" class="clearfix "></div>
 
 
 <script> 
