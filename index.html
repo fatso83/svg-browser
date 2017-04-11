@@ -1,0 +1,98 @@
+<style>
+body {
+    background: #CCC;
+}
+
+.image-block {
+    float: left;
+    width: 130px;
+    height: 180px;
+    background: white;
+}
+
+svg {
+    padding: 10px;
+    height: 80px;
+    width: 80px;
+}
+
+p {
+    font-size: 12px;
+    text-overflow: ellipsis;
+    margin: 10px;
+    text-align: center;
+}
+
+</style>
+
+<input id="fileInput" type="file" multiple>
+
+<div id="svg-browser"></div>
+
+
+<script> 
+var myFilesEl = document.querySelector("#fileInput");
+var output = document.querySelector("#svg-browser");
+var map = Array.prototype.map;
+var apply = Array.prototype.apply;
+var filter = Array.prototype.filter;
+
+function pullfiles() {
+    // love the query selector
+    var fileInput = myFilesEl;
+    var files = fileInput.files;
+    var svgFiles = filter.call(files, f => f.name.match(/.*\.svg$/) );
+    var fragment = document.createDocumentFragment();
+
+    if(svgFiles.length){
+        var imageBlocks = svgFiles.map(buildImageBlock);
+        imageBlocks.forEach((block) => fragment.append(block));
+
+        // really dirty hack to save pictures once finished ... but quick to implement :p
+        setTimeout(()=> localStorage.setItem("cache", output.innerHTML), 2000)
+    } else {
+        var p = document.createElement("p");
+        p.innerText = "No svgs selected";
+        fragment.append(p);
+    }
+
+    // empty the current content
+    while (output.firstChild) {
+        output.removeChild(output.firstChild);
+    }
+
+    output.append(fragment);
+}
+
+// returns the svg element as a long string
+function unpackSvgElement(base64EncodedSvg){
+    var prefix = "data:image/svg+xml;base64,";
+    // Decode the String
+    debugger;
+    var decodedString = atob(base64EncodedSvg.slice(prefix.length));
+    return decodedString;
+}
+
+function buildImageBlock (file) {
+    var reader = new FileReader();
+    var block = document.createElement("div");
+    block.classList.add("image-block");
+    reader.onload = (e) => { 
+        var svgCode = unpackSvgElement(e.target.result);
+        svgCode += "<p>" + file.name + "</p>";
+        block.innerHTML = svgCode;
+    };
+    reader.readAsDataURL(file);
+
+    return block;
+}
+
+myFilesEl.onchange = pullfiles;
+
+var cache = localStorage.getItem("cache")
+if(cache) {
+    output.innerHTML = cache;
+}
+
+</script>
+
